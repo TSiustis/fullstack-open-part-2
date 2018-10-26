@@ -22,7 +22,7 @@ class App extends React.Component {
     const persons = this.state.persons.concat(nameObject)
 
     this.setState({
-      persons: persons,
+      persons,
       newName: ''
     })
   }
@@ -53,9 +53,8 @@ class App extends React.Component {
 
         </form>
         <h2>Numerot</h2>
-        ...
         <div>
-          debug: {this.state.newName}
+          {this.state.persons.map(item => <Puhelinluettelo key={item.name} name={item.name} />)}  
         </div>
 
       </div>
