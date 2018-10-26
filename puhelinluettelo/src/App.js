@@ -1,4 +1,5 @@
 import React from 'react';
+import Puhelinluettelo from './components/Puhelinluettelo'
 
 class App extends React.Component {
   constructor(props) {
@@ -7,17 +8,43 @@ class App extends React.Component {
       persons: [
         { name: 'Arto Hellas' }
       ],
-      newName: ''
+      newName: 'asdas'
     }
   }
+
+
+  addName = (event) =>{
+    event.preventDefault()
+    const nameObject = {
+      name: this.state.newName
+    }
+    console.log('nappia painettu')
+    const persons = this.state.persons.concat(nameObject)
+
+    this.setState({
+      persons: persons,
+      newName: ''
+    })
+  }
+
+
+  handleNameChange = (event) => {
+    this.setState({ newName : event.target.value})
+  }
+
+
+
+
 
   render() {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
-        <form>
+        <form onSubmit= {this.addName}>
           <div>
-            nimi: <input />
+            nimi: <input value={this.state.newName}
+                         onChange={this.handleNameChange}
+                  />
           </div>
 
           <div>
@@ -30,6 +57,7 @@ class App extends React.Component {
         <div>
           debug: {this.state.newName}
         </div>
+
       </div>
     )
   }
