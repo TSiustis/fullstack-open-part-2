@@ -8,7 +8,7 @@ class App extends React.Component {
       persons: [
         { name: 'Arto Hellas' }
       ],
-      newName: 'asdas'
+      newName: 'Arto Hellas'
     }
   }
 
@@ -18,14 +18,27 @@ class App extends React.Component {
     const nameObject = {
       name: this.state.newName
     }
-    console.log('nappia painettu')
-    const persons = this.state.persons.concat(nameObject)
-
-    this.setState({
-      persons,
-      newName: ''
+    const result = this.state.persons.find(person => {
+      return person.name === (nameObject.name)
     })
-  }
+
+
+   if(!result){
+     const persons = this.state.persons.concat(nameObject)
+     console.log(persons.length)
+      this.setState({
+       persons,
+       newName: ''
+     })
+   }
+   else{
+     alert("nimi on jo puhelinluettelossa")
+   }
+    }
+
+
+
+
 
 
   handleNameChange = (event) => {
@@ -54,7 +67,7 @@ class App extends React.Component {
         </form>
         <h2>Numerot</h2>
         <div>
-          {this.state.persons.map(item => <Puhelinluettelo key={item.name} name={item.name} />)}  
+          {this.state.persons.map(item => <Puhelinluettelo key={item.name} name={item.name} />)}
         </div>
 
       </div>
