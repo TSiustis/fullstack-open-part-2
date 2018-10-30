@@ -1,7 +1,7 @@
 import React from 'react'
-const Puhelinluettelo= ( props) => {
+const Puhelinluettelo= ( {name, number}) => {
   return (
-    <p>{props.name}</p>
+    <p>{name}  {number}</p>
   )
 }
 export default Puhelinluettelo
