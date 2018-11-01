@@ -1,5 +1,7 @@
 import React from 'react';
-import Puhelinluettelo from './components/Puhelinluettelo'
+import YksittaisenHenkilonTiedot from './components/YksittaisenHenkilonTiedot'
+import LisaaUusiHenkilo from './components/LisaaUusiHenkilo'
+import RajaaNaytettavia from './components/RajaaNaytettavia'
 
 class App extends React.Component {
   constructor(props) {
@@ -19,9 +21,9 @@ class App extends React.Component {
         { name: 'Pentti esimerkkis',
           number: "0443386957"},
       ],
-      newName: 'Arto Hellas',
-      newNumber: '0443385732',
-      filter:'Arto Hellas'
+      newName: '',
+      newNumber: '',
+      filter:''
     }
   }
 
@@ -74,37 +76,20 @@ class App extends React.Component {
       if(person.name.toLowerCase().includes(termLowerCase) ){
         return person
       }
+      else if(this.state.filter === ''){
+        return this.state.persons
+      }
+
+
     })
     return (
       <div>
         <h2>Puhelinluettelo</h2>
-        <p>rajaa naytettavia</p>
-        <input value={this.state.filter}
-               onChange={this.handlefilterChange}
-               />
-        <h2>Lisää uusi</h2>
-        <form onSubmit= {this.addName}>
-          <div>
-            nimi: <input value={this.state.newName}
-                         onChange={this.handleNameChange}
-                  />
-          </div>
-          <div>
-            numero: <input value={this.state.newNumber}
-                         onChange={this.handleNumberChange}
-                  />
-          </div>
-          <div>
-            <button type="submit">lisää</button>
-          </div>
-        </form>
-
-
-
-
+        <LisaaUusiHenkilo addName = {this.addName} newName = {this.state.newName} handleNameChange = {this.handleNameChange} handleNumberChange= {this.handleNumberChange} />
+        <RajaaNaytettavia filter= {this.state.filter} handlefilterChange= {this.handlefilterChange}/>
         <h2>Numerot</h2>
         <div>
-          {found.map(item => <Puhelinluettelo key={item.name} name={item.name} number={item.number} />)}
+          {found.map(item => <YksittaisenHenkilonTiedot key={item.name} name={item.name} number={item.number} />)}
         </div>
 
       </div>
