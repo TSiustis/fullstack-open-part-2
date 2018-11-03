@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios'
 import YksittaisenHenkilonTiedot from './components/YksittaisenHenkilonTiedot'
 import LisaaUusiHenkilo from './components/LisaaUusiHenkilo'
 import RajaaNaytettavia from './components/RajaaNaytettavia'
@@ -8,25 +9,22 @@ class App extends React.Component {
     super(props)
     this.state = {
       persons: [
-        { name: 'Arto Hellas',
-          number: "0443386957"},
-        { name: 'Arto Hellas2',
-          number: "0443386957"},
-        { name: 'Arto Järvinen',
-          number: "0443386957"},
-        { name: 'Teemu',
-          number: "0443386957"},
-        { name: 'Koira koiranen',
-          number: "0443386957"},
-        { name: 'Pentti esimerkkis',
-          number: "0443386957"},
+        
       ],
       newName: '',
       newNumber: '',
       filter:''
     }
   }
-
+  componentDidMount() {
+    console.log('did mount')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        this.setState({ persons : response.data})
+      })
+  }
 
   addName = (event) =>{
     event.preventDefault()
@@ -72,12 +70,10 @@ class App extends React.Component {
 
   render() {
     const termLowerCase = this.state.filter.toLowerCase()
+
     const found = this.state.persons.filter(person =>{
       if(person.name.toLowerCase().includes(termLowerCase) ){
         return person
-      }
-      else if(this.state.filter === ''){
-        return this.state.persons
       }
 
 
