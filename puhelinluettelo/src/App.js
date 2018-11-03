@@ -15,7 +15,7 @@ class App extends React.Component {
       newName: '',
       newNumber: '',
       filter:'',
-      whatHappened: 'Jotain tapahtui',
+      whatHappened: null,
     }
   }
   componentDidMount() {
@@ -58,7 +58,6 @@ class App extends React.Component {
 
   removePerson = (id, person) =>{
     return () => {
-      console.log(`should ${id} be removed?`)
       if (window.confirm(`Haluatko varmasti poistaa ${person}`)){
         personService
         .deletePerson(id)
@@ -67,9 +66,16 @@ class App extends React.Component {
           .getAll()
           .then(response => {
             console.log('promise fulfilled')
-            this.setState({ persons : response})
+            this.setState({ persons : response,
+                            whatHappened: `Henkilön ${person} poistaminen onnistui`
+                          })
+            setTimeout(() => {
+              this.setState({whatHappened: null})
+            }, 5000)
+
           })
         })
+
       }
     }
   }
