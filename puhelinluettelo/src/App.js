@@ -5,6 +5,7 @@ import personService from './services/persons'
 import YksittaisenHenkilonTiedot from './components/YksittaisenHenkilonTiedot'
 import LisaaUusiHenkilo from './components/LisaaUusiHenkilo'
 import RajaaNaytettavia from './components/RajaaNaytettavia'
+import Ilmoitus from './components/Ilmoitus'
 
 class App extends React.Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class App extends React.Component {
       persons: [],
       newName: '',
       newNumber: '',
-      filter:''
+      filter:'',
+      whatHappened: 'Jotain tapahtui',
     }
   }
   componentDidMount() {
@@ -94,12 +96,15 @@ class App extends React.Component {
       if(person.name.toLowerCase().includes(termLowerCase) ){
         return person
       }
-
+      else{
+        return null
+      }
 
     })
     return (
       <div>
         <h2>Puhelinluettelo</h2>
+        <Ilmoitus message={this.state.whatHappened}/>
         <LisaaUusiHenkilo addName = {this.addName} newName = {this.state.newName} newNumber = {this.state.newNumber} handleNameChange = {this.handleNameChange} handleNumberChange= {this.handleNumberChange} />
         <RajaaNaytettavia filter= {this.state.filter} handlefilterChange= {this.handlefilterChange}/>
         <h2>Numerot</h2>
