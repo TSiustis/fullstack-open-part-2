@@ -22,7 +22,7 @@ class App extends React.Component {
       .getAll()
       .then(response => {
         console.log('promise fulfilled')
-        this.setState({ persons : response.data})
+        this.setState({ persons : response})
       })
   }
 
@@ -40,9 +40,9 @@ class App extends React.Component {
    if(!result){
      personService
      .create(personObject)
-          .then(response => {
+          .then(newPerson => {
             this.setState({
-             persons: this.state.persons.concat(personObject),
+             persons: this.state.persons.concat(newPerson),
              newName: '',
              newNumber: ''
            })
