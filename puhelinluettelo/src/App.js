@@ -60,12 +60,8 @@ class App extends React.Component {
       personService
       .deletePerson(id)
       .then(response => {
-        personService
-        .getAll()
-        .then(response => {
-          console.log('promise fulfilled')
-          this.setState({ persons : response})
-        })
+        console.log('promise fulfilled')
+        this.setState({ persons : response})
       })
     }
   }

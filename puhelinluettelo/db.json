@@ -1,39 +1,9 @@
 {
   "persons": [
     {
-      "name": "wrqwer",
-      "number": "123123",
-      "id": 7
-    },
-    {
       "name": "asd4",
       "number": "asd",
       "id": 10
-    },
-    {
-      "name": "sdfsdgsdg",
-      "number": "3424234",
-      "id": 11
-    },
-    {
-      "name": "asdasd23",
-      "number": "3423435",
-      "id": 12
-    },
-    {
-      "name": "sfagaghaw",
-      "number": "231234",
-      "id": 13
-    },
-    {
-      "name": "asd45",
-      "number": "341234",
-      "id": 15
-    },
-    {
-      "name": "asdfadfasdfadsf",
-      "number": "234234234234",
-      "id": 16
     },
     {
       "name": "sadfasdasdasd",
