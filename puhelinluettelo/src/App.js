@@ -82,9 +82,23 @@ class App extends React.Component {
           }, 5000)
           })
         .catch(error =>{
-          alert(`Henkilö '${personObject.name}' on jo valitettavasti poistettu palvelimelta`)
-          this.setState({ persons: this.state.persons.filter(p => p.id !== id) })
-        })
+          if(window.confirm(`Henkilö '${personObject.name}' on jo valitettavasti poistettu palvelimelta, lisätäänkö henkilö kuitenkin päivitetyllä puhelinnumerolla luetteloon?`)){
+          personService
+          .create(personObject)
+               .then(newPerson => {
+                 this.setState({
+                  persons: this.state.persons.filter(p => p.id !== id).concat(newPerson),
+                  newName: '',
+                  newNumber: '',
+                  notification: `Henkilön ${newPerson.name} lisääminen onnistui`,
+                  notificationStyle: 'addNotification'
+                })
+                setTimeout(() => {
+                  this.setState({notification: null})
+                }, 5000)
+
+               })
+        }})
         }
       }
   }
