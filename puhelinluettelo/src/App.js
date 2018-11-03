@@ -81,6 +81,10 @@ class App extends React.Component {
           this.setState({notification: null})
           }, 5000)
           })
+        .catch(error =>{
+          alert(`Henkilö '${personObject.name}' on jo valitettavasti poistettu palvelimelta`)
+          this.setState({ persons: this.state.persons.filter(p => p.id !== id) })
+        })
         }
       }
   }
