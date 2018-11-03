@@ -15,7 +15,7 @@ class App extends React.Component {
       newName: '',
       newNumber: '',
       filter:'',
-      whatHappened: null,
+      notification: null,
       notificationStyle: ''
     }
   }
@@ -36,8 +36,14 @@ class App extends React.Component {
       number: this.state.newNumber
     }
     const result = this.state.persons.find(person => {
-      return person.name === (personObject.name)
+      if(person.name === (personObject.name)){
+        return person
+      }
+      else{
+        return null
+      }
     })
+    const changedPerson = { ...result, number: this.state.newNumber }
 
 
    if(!result){
@@ -48,19 +54,36 @@ class App extends React.Component {
              persons: this.state.persons.concat(newPerson),
              newName: '',
              newNumber: '',
-             whatHappened: `Henkilön ${newPerson.name} lisääminen onnistui`,
-             notificationStyle: 'addingNotification'
+             notification: `Henkilön ${newPerson.name} lisääminen onnistui`,
+             notificationStyle: 'addNotification'
            })
            setTimeout(() => {
-             this.setState({whatHappened: null})
+             this.setState({notification: null})
            }, 5000)
 
           })
    }
    else{
-     alert("nimi on jo puhelinluettelossa")
-   }
-    }
+     if (window.confirm(`Haluatko päivittää henkilön ${personObject.name} puhelinnumeron?`)){
+       const id= result.id
+       personService
+       .update(id, changedPerson)
+       .then(changedPerson => {
+       const persons = this.state.persons.filter(p => p.id !== id)
+       this.setState({
+            persons: persons.concat(changedPerson),
+            newName: '',
+            newNumber: '',
+            notification: `Henkilön ${personObject.name} numeron muokkaaminen onnistui`,
+            notificationStyle: 'addNotification',
+            })
+      setTimeout(() => {
+          this.setState({notification: null})
+          }, 5000)
+          })
+        }
+      }
+  }
 
   removePerson = (id, person) =>{
     return () => {
@@ -71,13 +94,12 @@ class App extends React.Component {
           personService
           .getAll()
           .then(response => {
-            console.log('promise fulfilled')
             this.setState({ persons : response,
-                            whatHappened: `Henkilön ${person} poistaminen onnistui`,
+                            notification: `Henkilön ${person} poistaminen onnistui`,
                             notificationStyle: 'removeNotification'
                           })
             setTimeout(() => {
-              this.setState({whatHappened: null})
+              this.setState({notification: null})
             }, 5000)
 
           })
@@ -117,7 +139,7 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
-        <Ilmoitus message={this.state.whatHappened} classname={this.state.notificationStyle}/>
+        <Ilmoitus message={this.state.notification} classname={this.state.notificationStyle}/>
         <LisaaUusiHenkilo addName = {this.addName} newName = {this.state.newName} newNumber = {this.state.newNumber} handleNameChange = {this.handleNameChange} handleNumberChange= {this.handleNumberChange} />
         <RajaaNaytettavia filter= {this.state.filter} handlefilterChange= {this.handlefilterChange}/>
         <h2>Numerot</h2>
