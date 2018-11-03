@@ -16,6 +16,7 @@ class App extends React.Component {
       newNumber: '',
       filter:'',
       whatHappened: null,
+      notificationStyle: ''
     }
   }
   componentDidMount() {
@@ -46,15 +47,20 @@ class App extends React.Component {
             this.setState({
              persons: this.state.persons.concat(newPerson),
              newName: '',
-             newNumber: ''
+             newNumber: '',
+             whatHappened: `Henkilön ${newPerson.name} lisääminen onnistui`,
+             notificationStyle: 'addingNotification'
            })
+           setTimeout(() => {
+             this.setState({whatHappened: null})
+           }, 5000)
+
           })
    }
    else{
      alert("nimi on jo puhelinluettelossa")
    }
     }
-
 
   removePerson = (id, person) =>{
     return () => {
@@ -67,7 +73,8 @@ class App extends React.Component {
           .then(response => {
             console.log('promise fulfilled')
             this.setState({ persons : response,
-                            whatHappened: `Henkilön ${person} poistaminen onnistui`
+                            whatHappened: `Henkilön ${person} poistaminen onnistui`,
+                            notificationStyle: 'removeNotification'
                           })
             setTimeout(() => {
               this.setState({whatHappened: null})
@@ -110,7 +117,7 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
-        <Ilmoitus message={this.state.whatHappened}/>
+        <Ilmoitus message={this.state.whatHappened} classname={this.state.notificationStyle}/>
         <LisaaUusiHenkilo addName = {this.addName} newName = {this.state.newName} newNumber = {this.state.newNumber} handleNameChange = {this.handleNameChange} handleNumberChange= {this.handleNumberChange} />
         <RajaaNaytettavia filter= {this.state.filter} handlefilterChange= {this.handlefilterChange}/>
         <h2>Numerot</h2>

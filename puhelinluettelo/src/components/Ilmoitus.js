@@ -1,11 +1,12 @@
 import React from 'react'
 
-const Ilmoitus = ({ message }) => {
+const Ilmoitus = ({ message, classname }) => {
+  console.log(classname)
   if (message === null) {
     return null
   }
   return (
-    <div className="notification">
+    <div className={classname}>
       {message}
     </div>
   )
