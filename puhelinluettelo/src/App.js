@@ -1,5 +1,7 @@
 import React from 'react';
-import axios from 'axios'
+
+import personService from './services/persons'
+
 import YksittaisenHenkilonTiedot from './components/YksittaisenHenkilonTiedot'
 import LisaaUusiHenkilo from './components/LisaaUusiHenkilo'
 import RajaaNaytettavia from './components/RajaaNaytettavia'
@@ -8,9 +10,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      persons: [
-        
-      ],
+      persons: [],
       newName: '',
       newNumber: '',
       filter:''
@@ -18,8 +18,8 @@ class App extends React.Component {
   }
   componentDidMount() {
     console.log('did mount')
-    axios
-      .get('http://localhost:3001/persons')
+    personService
+      .getAll()
       .then(response => {
         console.log('promise fulfilled')
         this.setState({ persons : response.data})
@@ -38,12 +38,15 @@ class App extends React.Component {
 
 
    if(!result){
-     const persons = this.state.persons.concat(personObject)
-      this.setState({
-       persons,
-       newName: '',
-       newNumber: '',
-     })
+     personService
+     .create(personObject)
+          .then(response => {
+            this.setState({
+             persons: this.state.persons.concat(personObject),
+             newName: '',
+             newNumber: ''
+           })
+          })
    }
    else{
      alert("nimi on jo puhelinluettelossa")
@@ -81,7 +84,7 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
-        <LisaaUusiHenkilo addName = {this.addName} newName = {this.state.newName} handleNameChange = {this.handleNameChange} handleNumberChange= {this.handleNumberChange} />
+        <LisaaUusiHenkilo addName = {this.addName} newName = {this.state.newName} newNumber = {this.state.newNumber} handleNameChange = {this.handleNameChange} handleNumberChange= {this.handleNumberChange} />
         <RajaaNaytettavia filter= {this.state.filter} handlefilterChange= {this.handlefilterChange}/>
         <h2>Numerot</h2>
         <div>
