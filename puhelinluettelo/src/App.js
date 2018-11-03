@@ -54,7 +54,21 @@ class App extends React.Component {
     }
 
 
-
+  removePerson = (id) =>{
+    return () => {
+      console.log(`should ${id} be removed?`)
+      personService
+      .deletePerson(id)
+      .then(response => {
+        personService
+        .getAll()
+        .then(response => {
+          console.log('promise fulfilled')
+          this.setState({ persons : response})
+        })
+      })
+    }
+  }
 
 
 
@@ -88,7 +102,7 @@ class App extends React.Component {
         <RajaaNaytettavia filter= {this.state.filter} handlefilterChange= {this.handlefilterChange}/>
         <h2>Numerot</h2>
         <div>
-          {found.map(item => <YksittaisenHenkilonTiedot key={item.name} name={item.name} number={item.number} />)}
+          {found.map(item => <YksittaisenHenkilonTiedot key={item.name} name={item.name} number={item.number} removePerson = {this.removePerson(item.id)}/>)}
         </div>
 
       </div>

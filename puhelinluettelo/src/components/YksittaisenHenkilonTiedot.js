@@ -1,7 +1,7 @@
 import React from 'react'
-const YksittaisenHenkilonTiedot = ( {name, number}) => {
+const YksittaisenHenkilonTiedot = ( {name, number, removePerson}) => {
   return (
-    <p>{name}  {number}</p>
+    <li>{name}  {number} <button onClick={removePerson}>poista</button></li>
   )
 }
 export default YksittaisenHenkilonTiedot
